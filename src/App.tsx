@@ -6,7 +6,7 @@ function App() {
   let sessionContainer: HTMLDivElement | null = null;
   // set your auth endpoint here
   // a sample is available here: https://github.com/zoom/videosdk-auth-endpoint-sample
-  const authEndpoint = "zoom-sdk-33eq.vercel.app"; // http://localhost:4000
+  const authEndpoint = "https://zoom-auth-endpoint.onrender.com"; // http://localhost:4000
   const config: CustomizationOptions = {
     videoSDKJWT:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfa2V5IjoiTXJCMTd2dHJOZ0g4UnlBM1pjOExsNDk3RERjaWpmVmh2U2JjIiwicm9sZV90eXBlIjoxLCJ0cGMiOiJ0ZXN0aW5nIHpvb20gdmlkZW8gIiwiaWF0IjoxNzUxMTAyNjQwLCJleHAiOjE3NTExMDYyNDB9.kSQ-gyRT3JiVL-NKQIuVKeYCo1RumIfzC0-oPaqImfk",
