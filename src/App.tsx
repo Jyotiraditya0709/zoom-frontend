@@ -2,6 +2,8 @@ import uitoolkit, { CustomizationOptions } from "@zoom/videosdk-ui-toolkit";
 import "@zoom/videosdk-ui-toolkit/dist/videosdk-ui-toolkit.css";
 import "./App.css";
 
+let joinTime: Date;
+
 function App() {
   let sessionContainer: HTMLDivElement | null = null;
   // set your auth endpoint here
@@ -71,11 +73,14 @@ function App() {
 
   function joinSession() {
     console.log(config);
+    joinTime = new Date();
+
     if (sessionContainer) {
       uitoolkit.joinSession(sessionContainer, config);
       sessionContainer && uitoolkit.onSessionClosed(sessionClosed);
       uitoolkit.onSessionDestroyed(sessionDestroyed);
     }
+    
   }
 
   const sessionClosed = () => {
@@ -85,6 +90,21 @@ function App() {
 
   const sessionDestroyed = () => {
     console.log("session destroyed");
+    const leaveTime = new Date();
+    const duration = (leaveTime.getTime() - joinTime.getTime())/1000/ 60;
+
+    fetch("http://localhost:4000/track-session", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        sessionName: config.sessionName,
+        userId: "user_"+ Math.random().toString(36).substring(2, 7),
+        name: config.userName,
+        joinedAt: joinTime.toISOString(),
+        leftAt:leaveTime.toISOString(),
+        durationMinutes: Math.round(duration),
+      }),
+    });
     uitoolkit.destroy();
   };
 
